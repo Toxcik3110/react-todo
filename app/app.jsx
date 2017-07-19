@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import Main from './components/Main';
+import TodoApp from 'TodoApp';
 
 //Load foundation
 $(document).foundation();
@@ -9,6 +9,6 @@ $(document).foundation();
 import 'style-loader!css-loader!sass-loader!applicationStyles';
 
 ReactDOM.render(
-	<div>Boilerplate 3 project<div/>,
+	<TodoApp />,
 	document.getElementById("app")
 );
