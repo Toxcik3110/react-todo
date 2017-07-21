@@ -30,10 +30,19 @@ class TodoApp extends React.Component {
 			searchText: '',
 		}
 		this.handleSearch = this.handleSearch.bind(this);
+		this.handleAddTodo = this.handleAddTodo.bind(this);
 	}
 
 	handleAddTodo(text) {
-		console.log(text);
+		this.setState({
+			todos: [
+				...this.state.todos,
+				{
+					id:this.state.todos.length+1,
+					text:text,
+				}
+			],
+		})
 	}
 
 	handleSearch(showCompleted, searchText) {
