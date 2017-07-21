@@ -12,18 +12,22 @@ class TodoApp extends React.Component {
 				{
 					id:1,
 					text: 'Walk the dog',
+					completed: false,
 				},
 				{
 					id:2,
 					text: 'Clean the yard',
+					completed: false,
 				},
 				{
 					id:3,
 					text: 'Fix children',
+					completed: false,
 				},
 				{
 					id:4,
 					text: 'Cook PC',
+					completed: false,
 				}
 			],
 			showCompleted: false,
@@ -31,6 +35,7 @@ class TodoApp extends React.Component {
 		}
 		this.handleSearch = this.handleSearch.bind(this);
 		this.handleAddTodo = this.handleAddTodo.bind(this);
+		this.handleToggle = this.handleToggle.bind(this);
 	}
 
 	handleAddTodo(text) {
@@ -40,9 +45,26 @@ class TodoApp extends React.Component {
 				{
 					id:this.state.todos.length+1,
 					text:text,
+					completed: false,
 				}
 			],
 		})
+	}
+
+	handleToggle(id) {
+		var todos = this.state.todos.map((todo) => {
+			if(todo.id === id) {
+				todo.completed = !todo.completed;
+			}
+
+			return todo;
+		});
+		
+		this.setState({
+			todos: [
+			...todos,
+			]
+		});
 	}
 
 	handleSearch(showCompleted, searchText) {
@@ -57,7 +79,7 @@ class TodoApp extends React.Component {
 		return (
 			<div>
 				<TodoSearch onSearch={this.handleSearch} />
-				<TodoList todos={todos} />
+				<TodoList todos={todos} todosHandler={this.handleToggle} />
 				<AddTodo onSubmitHandler={this.handleAddTodo} />
 			</div>
 		);

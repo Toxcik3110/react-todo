@@ -22515,22 +22515,27 @@ var TodoApp = function (_React$Component) {
 		_this.state = {
 			todos: [{
 				id: 1,
-				text: 'Walk the dog'
+				text: 'Walk the dog',
+				completed: false
 			}, {
 				id: 2,
-				text: 'Clean the yard'
+				text: 'Clean the yard',
+				completed: false
 			}, {
 				id: 3,
-				text: 'Fix children'
+				text: 'Fix children',
+				completed: false
 			}, {
 				id: 4,
-				text: 'Cook PC'
+				text: 'Cook PC',
+				completed: false
 			}],
 			showCompleted: false,
 			searchText: ''
 		};
 		_this.handleSearch = _this.handleSearch.bind(_this);
 		_this.handleAddTodo = _this.handleAddTodo.bind(_this);
+		_this.handleToggle = _this.handleToggle.bind(_this);
 		return _this;
 	}
 
@@ -22540,8 +22545,24 @@ var TodoApp = function (_React$Component) {
 			this.setState({
 				todos: [].concat(_toConsumableArray(this.state.todos), [{
 					id: this.state.todos.length + 1,
-					text: text
+					text: text,
+					completed: false
 				}])
+			});
+		}
+	}, {
+		key: 'handleToggle',
+		value: function handleToggle(id) {
+			var todos = this.state.todos.map(function (todo) {
+				if (todo.id === id) {
+					todo.completed = !todo.completed;
+				}
+
+				return todo;
+			});
+
+			this.setState({
+				todos: [].concat(_toConsumableArray(todos))
 			});
 		}
 	}, {
@@ -22561,7 +22582,7 @@ var TodoApp = function (_React$Component) {
 				'div',
 				null,
 				_react2.default.createElement(_TodoSearch2.default, { onSearch: this.handleSearch }),
-				_react2.default.createElement(_TodoList2.default, { todos: todos }),
+				_react2.default.createElement(_TodoList2.default, { todos: todos, todosHandler: this.handleToggle }),
 				_react2.default.createElement(_AddTodo2.default, { onSubmitHandler: this.handleAddTodo })
 			);
 		}
@@ -22615,11 +22636,13 @@ var TodoList = function (_React$Component) {
 	_createClass(TodoList, [{
 		key: 'render',
 		value: function render() {
-			var todos = this.props.todos;
+			var _props = this.props,
+			    todos = _props.todos,
+			    todosHandler = _props.todosHandler;
 
 			var renderTodos = function renderTodos(todo) {
 				return todos.map(function (todo) {
-					return _react2.default.createElement(_Todo2.default, _extends({ key: todo.id }, todo));
+					return _react2.default.createElement(_Todo2.default, _extends({ key: todo.id }, todo, { onToggle: todosHandler }));
 				});
 			};
 			return _react2.default.createElement(
@@ -22670,17 +22693,21 @@ var Todo = function (_React$Component) {
 	}
 
 	_createClass(Todo, [{
-		key: 'render',
+		key: "render",
 		value: function render() {
+			var _this2 = this;
+
 			var _props = this.props,
 			    text = _props.text,
-			    id = _props.id;
+			    id = _props.id,
+			    completed = _props.completed;
 
 			return _react2.default.createElement(
-				'div',
-				null,
-				id,
-				'. ',
+				"div",
+				{ onClick: function onClick() {
+						_this2.props.onToggle(id);
+					} },
+				_react2.default.createElement("input", { type: "checkbox", checked: completed }),
 				text
 			);
 		}
