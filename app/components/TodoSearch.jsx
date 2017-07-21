@@ -9,22 +9,28 @@ class TodoSearch extends React.Component {
 			completed:false,
 		};
 		this.inputHandler = this.inputHandler.bind(this);
+		this.callSearch = this.callSearch.bind(this);
+		this.checkboxHandler = this.checkboxHandler.bind(this);
 	}
 
 	inputHandler(e) {
-		// e.preventDefault();
-		// this.setState({
-		// 	searchText:e.target.searchText,
-		// });
+		this.setState({
+			searchText: e.target.value,
+		});
+		this.callSearch();
+	}
+
+	callSearch() {
 		var showCompleted = this.state.completed;
 		var searchText = this.state.searchText;
 		this.props.onSearch(showCompleted, searchText);
 	}
 
-	checkboxHandler(e) {
+	checkboxHandler() {
 		this.setState({
-
+			completed: !this.state.completed,
 		});
+		this.callSearch();
 	}
 
 	render() {
@@ -35,7 +41,7 @@ class TodoSearch extends React.Component {
 				</div>
 				<div>
 					<label>
-						<input type="checkbox" value={this.state.completed} onChange={this.inputHandler} />
+						<input type="checkbox" checked={this.state.completed} onChange={this.checkboxHandler} />
 						Show completed todos
 					</label>
 				</div>

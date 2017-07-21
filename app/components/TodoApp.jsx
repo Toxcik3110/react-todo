@@ -20,7 +20,7 @@ class TodoApp extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		TodoAPI.setTodos(this.state.todos)
+		TodoAPI.setTodos(this.state.todos);
 	}
 
 	handleAddTodo(text) {
@@ -60,11 +60,13 @@ class TodoApp extends React.Component {
 	}
 
 	render() {
-		var {todos} = this.state;
+		var {todos, showCompleted, searchText} = this.state;
+		var filteredTodos = TodoAPI.filterTodo(todos, showCompleted, searchText);
+
 		return (
 			<div>
 				<TodoSearch onSearch={this.handleSearch} />
-				<TodoList todos={todos} todosHandler={this.handleToggle} />
+				<TodoList todos={filteredTodos} todosHandler={this.handleToggle} />
 				<AddTodo onSubmitHandler={this.handleAddTodo} />
 			</div>
 		);

@@ -22569,13 +22569,18 @@ var TodoApp = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var todos = this.state.todos;
+			var _state = this.state,
+			    todos = _state.todos,
+			    showCompleted = _state.showCompleted,
+			    searchText = _state.searchText;
+
+			var filteredTodos = _TodoAPI2.default.filterTodo(todos, showCompleted, searchText);
 
 			return _react2.default.createElement(
 				'div',
 				null,
 				_react2.default.createElement(_TodoSearch2.default, { onSearch: this.handleSearch }),
-				_react2.default.createElement(_TodoList2.default, { todos: todos, todosHandler: this.handleToggle }),
+				_react2.default.createElement(_TodoList2.default, { todos: filteredTodos, todosHandler: this.handleToggle }),
 				_react2.default.createElement(_AddTodo2.default, { onSubmitHandler: this.handleAddTodo })
 			);
 		}
@@ -22613,6 +22618,23 @@ exports.default = {
 		} catch (e) {}
 
 		return $.isArray(todos) ? todos : [];
+	},
+	filterTodo: function filterTodo(todos, showCompleted, searchText) {
+		var filteredTodos = todos;
+
+		filteredTodos = filteredTodos.filter(function (todo) {
+			return !todo.completed || showCompleted;
+		});
+
+		filteredTodos = filteredTodos.filter(function (todo) {
+			return searchText.length === 0 || todo.text.toLowerCase().indexOf(searchText) >= 0 ? true : false;
+		});
+
+		filteredTodos.sort(function (a, b) {
+			return !a.completed ? b.completed ? -1 : 0 : 1;
+		});
+
+		return filteredTodos;
 	}
 };
 
@@ -22867,24 +22889,33 @@ var TodoSearch = function (_React$Component) {
 			completed: false
 		};
 		_this.inputHandler = _this.inputHandler.bind(_this);
+		_this.callSearch = _this.callSearch.bind(_this);
+		_this.checkboxHandler = _this.checkboxHandler.bind(_this);
 		return _this;
 	}
 
 	_createClass(TodoSearch, [{
 		key: 'inputHandler',
 		value: function inputHandler(e) {
-			// e.preventDefault();
-			// this.setState({
-			// 	searchText:e.target.searchText,
-			// });
+			this.setState({
+				searchText: e.target.value
+			});
+			this.callSearch();
+		}
+	}, {
+		key: 'callSearch',
+		value: function callSearch() {
 			var showCompleted = this.state.completed;
 			var searchText = this.state.searchText;
 			this.props.onSearch(showCompleted, searchText);
 		}
 	}, {
 		key: 'checkboxHandler',
-		value: function checkboxHandler(e) {
-			this.setState({});
+		value: function checkboxHandler() {
+			this.setState({
+				completed: !this.state.completed
+			});
+			this.callSearch();
 		}
 	}, {
 		key: 'render',
@@ -22903,7 +22934,7 @@ var TodoSearch = function (_React$Component) {
 					_react2.default.createElement(
 						'label',
 						null,
-						_react2.default.createElement('input', { type: 'checkbox', value: this.state.completed, onChange: this.inputHandler }),
+						_react2.default.createElement('input', { type: 'checkbox', checked: this.state.completed, onChange: this.checkboxHandler }),
 						'Show completed todos'
 					)
 				)
