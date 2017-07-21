@@ -5,7 +5,7 @@ class TodoSearch extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			value:'',
+			searchText:'',
 			completed:false,
 		};
 		this.inputHandler = this.inputHandler.bind(this);
@@ -13,11 +13,11 @@ class TodoSearch extends React.Component {
 
 	inputHandler(e) {
 		// e.preventDefault();
-		this.setState({
-			value:e.target.value,
-		});
+		// this.setState({
+		// 	searchText:e.target.searchText,
+		// });
 		var showCompleted = this.state.completed;
-		var searchText = this.state.value;
+		var searchText = this.state.searchText;
 		this.props.onSearch(showCompleted, searchText);
 	}
 
@@ -31,7 +31,7 @@ class TodoSearch extends React.Component {
 		return (
 			<div>
 				<div>
-					<input type="search" value={this.state.value} placeholder="Search todos" onChange={this.inputHandler} />
+					<input type="search" value={this.state.searchText} placeholder="Search todos" onChange={this.inputHandler} />
 				</div>
 				<div>
 					<label>
