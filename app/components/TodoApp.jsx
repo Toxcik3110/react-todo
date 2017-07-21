@@ -1,4 +1,6 @@
 import React from 'react';
+
+import TodoAPI from 'TodoAPI';
 import TodoList from 'TodoList';
 import AddTodo from 'AddTodo';
 import TodoSearch from 'TodoSearch';
@@ -8,34 +10,17 @@ class TodoApp extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			todos: [
-				{
-					id:1,
-					text: 'Walk the dog',
-					completed: false,
-				},
-				{
-					id:2,
-					text: 'Clean the yard',
-					completed: false,
-				},
-				{
-					id:3,
-					text: 'Fix children',
-					completed: false,
-				},
-				{
-					id:4,
-					text: 'Cook PC',
-					completed: false,
-				}
-			],
 			showCompleted: false,
 			searchText: '',
+			todos: TodoAPI.getTodos(),
 		}
 		this.handleSearch = this.handleSearch.bind(this);
 		this.handleAddTodo = this.handleAddTodo.bind(this);
 		this.handleToggle = this.handleToggle.bind(this);
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		TodoAPI.setTodos(this.state.todos)
 	}
 
 	handleAddTodo(text) {
@@ -59,7 +44,7 @@ class TodoApp extends React.Component {
 
 			return todo;
 		});
-		
+
 		this.setState({
 			todos: [
 			...todos,
