@@ -69,9 +69,16 @@ class TodoApp extends React.Component {
 
 		return (
 			<div>
-				<TodoSearch onSearch={this.handleSearch} />
-				<TodoList todos={filteredTodos} todosHandler={this.handleToggle} />
-				<AddTodo onSubmitHandler={this.handleAddTodo} />
+				<h1 className='page-title'>Todo App</h1>
+				<div className="grid-x grid-margin-x">
+					<div className="auto cell"></div>
+					<div className="medium-6 large-4 cell container">
+						<TodoSearch onSearch={this.handleSearch} />
+						<TodoList todos={filteredTodos} todosHandler={this.handleToggle} />
+						<AddTodo onSubmitHandler={this.handleAddTodo} />
+					</div>
+					<div className="auto cell"></div>
+				</div>
 			</div>
 		);
 	}
