@@ -16,27 +16,11 @@ class TodoApp extends React.Component {
 			todos: TodoAPI.getTodos(),
 		}
 		this.handleSearch = this.handleSearch.bind(this);
-		this.handleAddTodo = this.handleAddTodo.bind(this);
 		this.handleToggle = this.handleToggle.bind(this);
 	}
 
 	componentDidUpdate(prevProps, prevState) {
 		TodoAPI.setTodos(this.state.todos);
-	}
-
-	handleAddTodo(text) {
-		this.setState({
-			todos: [
-				...this.state.todos,
-				{
-					id:this.state.todos.length+1,
-					text:text,
-					completed: false,
-					createdAt: moment().unix(),
-					completedAt: undefined,
-				}
-			],
-		})
 	}
 
 	handleToggle(id) {
@@ -74,7 +58,7 @@ class TodoApp extends React.Component {
 					<div className="auto cell"></div>
 					<div className="medium-6 large-4 cell container">
 						<TodoSearch onSearch={this.handleSearch} />
-						<TodoList todos={filteredTodos} todosHandler={this.handleToggle} />
+						<TodoList />
 						<AddTodo onSubmitHandler={this.handleAddTodo} />
 					</div>
 					<div className="auto cell"></div>
