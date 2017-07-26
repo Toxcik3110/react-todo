@@ -26,6 +26,7 @@ module.exports = {
 			path.resolve(__dirname,'app/components/'),
 			path.resolve(__dirname,'app/actions/'),
 			path.resolve(__dirname,'app/reducers/'),
+			path.resolve(__dirname,'app/store/'),
 			path.resolve(__dirname,'app/api/')
 		],
 		alias: {

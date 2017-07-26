@@ -1,6 +1,6 @@
 import expect from 'expect';
 import df from 'deep-freeze-strict';
-import reducers from 'reducers';
+import {searchTextReducer, showCompletedReducer, todosReducer} from 'reducers';
 
 describe('Reducers', () => {
 	describe('searchTextReducer', () => {
@@ -9,7 +9,7 @@ describe('Reducers', () => {
 				type:'SET_SEARCH_TEXT',
 				searchText: 'Some search text',
 			};
-			var res = reducers.searchTextReducer(df(''), df(action));
+			var res = searchTextReducer(df(''), df(action));
 			expect(res).toEqual(action.searchText);
 		});		
 	});
@@ -18,9 +18,9 @@ describe('Reducers', () => {
 			var action = {
 				type:'TOGGLE_SHOW_COMPLETED',
 			};
-			var res = reducers.showCompletedReducer(df(false), df(action));
+			var res = showCompletedReducer(df(false), df(action));
 			expect(res).toBe(true);
-			res = reducers.showCompletedReducer(df(true), df(action));
+			res = showCompletedReducer(df(true), df(action));
 			expect(res).toBe(false);
 		});		
 	});
@@ -31,7 +31,7 @@ describe('Reducers', () => {
 				type:'ADD_TODO',
 				text:'walk the dog',
 			};
-			var res = reducers.todosReducer(df([]), df(action));
+			var res = todosReducer(df([]), df(action));
 			expect(res.length).toEqual(1);
 			expect(res[0].text).toBe(action.text);
 		});
@@ -47,32 +47,9 @@ describe('Reducers', () => {
 				type:'TOGGLE_TODO',
 				id:'123',
 			};
-			var res = reducers.todosReducer(df(todos), df(action));
+			var res = todosReducer(df(todos), df(action));
 			expect(res[0].completed).toEqual(false);
 			expect(res[0].completedAt).toEqual(undefined);
 		});
 	});
-	// it('should generate add todo action', () => {
-	// 	var action = {
-	// 		type:'ADD_TODO',
-	// 		text: 'Thing to do',
-	// 	};
-	// 	var res = actions.addTodo('Thing to do');
-	// 	expect(res).toEqual(action);
-	// });
-	// it('should generate toggle todo action', () => {
-	// 	var action = {
-	// 		type:'TOGGLE_TODO',
-	// 		id: 1,
-	// 	};
-	// 	var res = actions.toggleTodo(1);
-	// 	expect(res).toEqual(action);
-	// });
-	// it('should generate toggle show completed action', () => {
-	// 	var action = {
-	// 		type:'TOGGLE_SHOW_COMPLETED',
-	// 	};
-	// 	var res = actions.toggleShowCompleted();
-	// 	expect(res).toEqual(action);
-	// });
 });
