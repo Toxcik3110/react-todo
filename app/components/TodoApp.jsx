@@ -57,9 +57,9 @@ class TodoApp extends React.Component {
 				<div className="grid-x grid-margin-x">
 					<div className="auto cell"></div>
 					<div className="medium-6 large-4 cell container">
-						<TodoSearch onSearch={this.handleSearch} />
+						<TodoSearch />
 						<TodoList />
-						<AddTodo onSubmitHandler={this.handleAddTodo} />
+						<AddTodo />
 					</div>
 					<div className="auto cell"></div>
 				</div>

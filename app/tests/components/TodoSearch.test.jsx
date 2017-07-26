@@ -1,41 +1,44 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var expect = require('expect');
-var $ = require('jQuery');
-var TestUtils = require('react-dom/test-utils');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import expect from 'expect';
+import $ from 'jQuery';
+import TestUtils from 'react-dom/test-utils';
 
-import TodoSearch from 'TodoSearch';
+import {TodoSearch} from 'TodoSearch';
 
 describe('TodoSearch', () => {
 	it('should exist', () => {
 		expect(TodoSearch).toExist();
 	});
 
-	it('should call onSearch with entered input text', () => {
+	it('should dispatch SET_SEARCH_TEXT on input change', () => {
 		var searchText = 'Dog';
+		var action = {
+			type: 'SET_SEARCH_TEXT',
+			searchText
+		}
 		var spy = expect.createSpy();
-		var todoSearch = TestUtils.renderIntoDocument(<TodoSearch onSearch={spy}/>);
+		var todoSearch = TestUtils.renderIntoDocument(<TodoSearch dispatch={spy}/>);
+		// todoSearch.setState(searchText);
+		// todoSearch.refs.searchText.value = searchText;
 		var $el = $(ReactDOM.findDOMNode(todoSearch));
+		$el.find('input')[0].value = searchText;
 
-		todoSearch.setState({
-			searchText: searchText,
-		});
 		TestUtils.Simulate.change($el.find('input')[0]);
 
-		expect(spy).toHaveBeenCalledWith(false, searchText);
+		expect(spy).toHaveBeenCalledWith(action);
 	});
 
-	it('should call onSearch with proper checked value', () => {
-		var completed = true;
+	it('should dispatch TOGGLE_SHOW_COMPLETED when checkbox checked', () => {
+		var action = {
+			type: 'TOGGLE_SHOW_COMPLETED',
+		}
 		var spy = expect.createSpy();
-		var todoSearch = TestUtils.renderIntoDocument(<TodoSearch onSearch={spy}/>);
+		var todoSearch = TestUtils.renderIntoDocument(<TodoSearch dispatch={spy}/>);
 		var $el = $(ReactDOM.findDOMNode(todoSearch));
 
-		todoSearch.setState({
-			completed: completed,
-		});
 		TestUtils.Simulate.change($el.find('input')[1]);
 
-		expect(spy).toHaveBeenCalledWith(completed, '');
+		expect(spy).toHaveBeenCalledWith(action);
 	});
 });
