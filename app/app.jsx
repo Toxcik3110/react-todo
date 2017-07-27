@@ -2,17 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TodoApp from 'TodoApp';
 import {Provider} from 'react-redux';
-import {setSearchText, addTodo, toggleTodo, toggleShowCompleted} from 'actions';
+import {setSearchText, addTodo, toggleTodo, toggleShowCompleted, addTodos} from 'actions';
+import TodoAPI from 'TodoAPI';
 
 var store = require('configureStore').configure();
 
 store.subscribe(() => {
-	console.log('New state', store.getState());
+	var state = store.getState();
+	console.log('New state', state);
+	TodoAPI.setTodos(state.todos);
 });
 
-store.dispatch(addTodo('Clean the yard'));
-store.dispatch(setSearchText('yard'));
-store.dispatch(toggleShowCompleted());
+var initialTodos = TodoAPI.getTodos();
+
+store.dispatch(addTodos(initialTodos));
+// store.dispatch(setSearchText('yard'));
+// store.dispatch(toggleShowCompleted());
 
 //Load foundation
 $(document).foundation();
